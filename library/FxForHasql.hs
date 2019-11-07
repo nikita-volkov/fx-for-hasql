@@ -6,7 +6,6 @@ import Hasql.Connection (Connection)
 import Hasql.Session (Session, QueryError)
 import Hasql.Statement (Statement)
 import Hasql.Transaction (Transaction)
-import qualified Hasql.Pool as Pool
 import qualified Hasql.Session as Session
 import qualified Hasql.Connection as Connection
 import qualified Hasql.Statement as Statement
