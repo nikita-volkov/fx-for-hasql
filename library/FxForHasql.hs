@@ -2,7 +2,7 @@ module FxForHasql
 where
 
 import FxForHasql.Prelude
-import Hasql.Connection (Connection)
+import Hasql.Connection (Connection, ConnectionError)
 import Hasql.Session (Session, QueryError)
 import Hasql.Statement (Statement)
 import Hasql.Transaction (Transaction)
@@ -10,6 +10,20 @@ import qualified Hasql.Session as Session
 import qualified Hasql.Connection as Connection
 import qualified Hasql.Statement as Statement
 import qualified Hasql.Transaction as Transaction
+
+
+-- * Providers
+-------------------------
+
+connectionProvider :: Connection.Settings -> Provider ConnectionError Connection
+connectionProvider settings =
+  acquireAndRelease
+    (runPartialIO (Connection.acquire settings))
+    (runTotalIO . Connection.release)
+
+connectionPoolProvider :: Int -> Connection.Settings -> Provider ConnectionError (Provider err Connection)
+connectionPoolProvider poolSize connectionSettings =
+  pool poolSize (connectionProvider connectionSettings)
 
 
 -- * Fx
