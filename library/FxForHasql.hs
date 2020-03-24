@@ -18,8 +18,8 @@ import qualified Hasql.Transaction as Transaction
 connectionProvider :: Connection.Settings -> Provider ConnectionError Connection
 connectionProvider settings =
   acquireAndRelease
-    (runPartialIO (Connection.acquire settings))
-    (runTotalIO . Connection.release)
+    (runPartialIO (const (Connection.acquire settings)))
+    (runTotalIO Connection.release)
 
 connectionPoolProvider :: Int -> Connection.Settings -> Provider ConnectionError (Provider err Connection)
 connectionPoolProvider poolSize connectionSettings =
@@ -33,7 +33,7 @@ connectionPoolProvider poolSize connectionSettings =
 Execute a session in Fx.
 -}
 runSession :: Session a -> Fx Connection QueryError a
-runSession session = exposeEnv >>= runPartialIO . Session.run session
+runSession session = runPartialIO (Session.run session)
 
 {-|
 Execute a statement in Fx.
