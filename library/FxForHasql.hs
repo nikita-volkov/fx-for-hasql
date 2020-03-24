@@ -33,7 +33,7 @@ connectionPoolProvider poolSize connectionSettings =
 Execute a session in Fx.
 -}
 runSession :: Session a -> Fx Connection QueryError a
-runSession session = handleEnv (runPartialIO . Session.run session)
+runSession session = exposeEnv >>= runPartialIO . Session.run session
 
 {-|
 Execute a statement in Fx.

@@ -1,4 +1,1 @@
-resolver: https://raw.githubusercontent.com/metrix-ai/stack-snapshot/55.5/snapshot.yaml
-extra-deps:
-- {git: "https://github.com/nikita-volkov/fx", commit: "d4e5b446b88c930fd1abd23b276f6072700722ea"}
-- hasql-transaction-0.10.0.1
+resolver: https://raw.githubusercontent.com/nikita-volkov/codemine-stack-snapshot/c476a50c75683f0908550d2e65c8d11331812d2b/snapshot.yaml
