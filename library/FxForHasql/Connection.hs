@@ -1,4 +1,4 @@
-module FxForHasql
+module FxForHasql.Connection
 where
 
 import FxForHasql.Prelude
@@ -15,15 +15,11 @@ import qualified Hasql.Transaction as Transaction
 -- * Providers
 -------------------------
 
-connectionProvider :: Connection.Settings -> Provider ConnectionError Connection
-connectionProvider settings =
+provider :: Connection.Settings -> Provider ConnectionError Connection
+provider settings =
   acquireAndRelease
     (runPartialIO (const (Connection.acquire settings)))
     (runTotalIO Connection.release)
-
-connectionPoolProvider :: Int -> Connection.Settings -> Provider ConnectionError (Provider err Connection)
-connectionPoolProvider poolSize connectionSettings =
-  pool poolSize (connectionProvider connectionSettings)
 
 
 -- * Fx
